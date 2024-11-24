@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>月亮動畫</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #0a0a2a;
+            cursor: none;
+        }
+
+        .star {
+            position: absolute;
+            color: white;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        #moon {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            pointer-events: none;
+            transition: transform 0.1s, z-index 0.1s;
+        }
+
+        #moon img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #earth {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 300px;
+            z-index: 1;
+        }
+
+        .meteor {
+            position: absolute;
+            font-size: 20px;
+            animation: meteorFall 2s linear forwards;
+            transform: rotate(45deg);
+        }
+
+        @keyframes meteorFall {
+            from {
+                transform: translate(0, 0) rotate(45deg);
+                opacity: 1;
+            }
+            to {
+                transform: translate(-800px, 800px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        #prompt {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div id="earth">🌍</div>
+    <div id="moon">
+        <img src="./image/111111111.png" alt="moon">
+    </div>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="./music/迷失的旋律.mp3" type="audio/mp3">
+        您的瀏覽器不支援音訊播放
+    </audio>
+    <div id="prompt">點擊畫面播放音樂</div>
+
+    <script>
+        const moon = document.getElementById('moon');
+        const earth = document.getElementById('earth');
+        const earthPhases = ['🌍', '🌎', '🌏','🌎','🌍'];
+        let earthPhase = 0;
+        let lastX = 0;
+
+        // 滑鼠跟隨效果
+        document.addEventListener('mousemove', (e) => {
+            moon.style.left = (e.clientX - 100) + 'px';
+            moon.style.top = (e.clientY - 100) + 'px';
+
+            // 判斷月亮移動方向並設置層級
+            if (e.clientX > lastX) {
+                // 向右移動，月亮在地球下面
+                moon.style.zIndex = 0;
+            } else {
+                // 向左移動，月亮在地球上面
+                moon.style.zIndex = 2;
+            }
+            lastX = e.clientX;
+        });
+
+        // 地球動畫
+        setInterval(() => {
+            earthPhase = (earthPhase + 1) % earthPhases.length;
+            earth.textContent = earthPhases[earthPhase];
+        }, 1000);
+
+        // 創建星星
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = Math.random() * window.innerHeight + 'px';
+            star.textContent = '⭐';
+            star.style.fontSize = Math.random() * 10 + 5 + 'px';
+            document.body.appendChild(star);
+
+            setInterval(() => {
+                star.style.opacity = Math.random();
+            }, Math.random() * 3000 + 1000);
+        }
+
+        // 創建流星
+        function createMeteor() {
+            // 同時創建多個流星
+            const count = Math.floor(Math.random() * 3) + 1; // 每次產生1-3顆流星
+            
+            for (let i = 0; i < count; i++) {
+                const meteor = document.createElement('div');
+                meteor.className = 'meteor';
+                meteor.textContent = '💫';
+                
+                // 隨機大小
+                const size = Math.random() * 15 + 15; // 15-30px
+                meteor.style.fontSize = size + 'px';
+                
+                // 隨機位置
+                meteor.style.left = (Math.random() * window.innerWidth + 200) + 'px';
+                meteor.style.top = Math.random() * (window.innerHeight / 3) - 100 + 'px';
+                
+                document.body.appendChild(meteor);
+
+                meteor.addEventListener('animationend', () => {
+                    meteor.remove();
+                });
+            }
+        }
+
+        // 初始化100顆星星
+        for (let i = 0; i < 100; i++) {
+            createStar();
+        }
+
+        // 更頻繁地產生流星
+        setInterval(createMeteor, 1000); // 每秒產生一次流星群
+
+        // 添加音樂控制
+        const bgMusic = document.getElementById('bgMusic');
+        const prompt = document.getElementById('prompt');
+        
+        // 添加錯誤處理
+        bgMusic.addEventListener('error', (e) => {
+            console.error('音訊載入錯誤：', e);
+            alert('音樂檔案載入失敗，請確認檔案路徑是否正確');
+        });
+
+        document.addEventListener('click', () => {
+            // 使用 Promise 來處理播放
+            const playPromise = bgMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // 播放成功
+                    prompt.style.display = 'none';
+                }).catch(error => {
+                    // 播放失敗
+                    console.error('播放失敗：', error);
+                    alert('音樂播放失敗，請確認：\n1. 檔案是否存在\n2. 檔案名稱是否正確\n3. 檔案路徑是否正確');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

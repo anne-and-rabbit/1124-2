@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>月亮動畫</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #0a0a2a;
+            cursor: none;
+        }
+
+        .star {
+            position: absolute;
+            color: white;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        #moon {
+            position: fixed;
+            font-size: 200px;
+            pointer-events: none;
+            transition: transform 0.1s, z-index 0.1s;
+        }
+
+        #earth {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 300px;
+            z-index: 1;
+        }
+
+        .meteor {
+            position: absolute;
+            font-size: 20px;
+            animation: meteorFall 2s linear forwards;
+            transform: rotate(45deg);
+        }
+
+        @keyframes meteorFall {
+            from {
+                transform: translate(0, 0) rotate(45deg);
+                opacity: 1;
+            }
+            to {
+                transform: translate(-800px, 800px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="earth">🌍</div>
+    <div id="moon">🌑</div>
+
+    <script>
+        const moon = document.getElementById('moon');
+        const earth = document.getElementById('earth');
+        const moonPhases = ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘','🌑','🌘','🌗','🌖', '🌕', '🌔','🌓','🌒','🌑'];
+        const earthPhases = ['🌍', '🌎', '🌏','🌎','🌍'];
+        let currentPhase = 0;
+        let earthPhase = 0;
+        let lastX = 0;
+
+        // 滑鼠跟隨效果
+        document.addEventListener('mousemove', (e) => {
+            moon.style.left = (e.clientX - 100) + 'px';
+            moon.style.top = (e.clientY - 100) + 'px';
+
+            // 判斷月亮移動方向並設置層級
+            if (e.clientX > lastX) {
+                // 向右移動，月亮在地球下面
+                moon.style.zIndex = 0;
+            } else {
+                // 向左移動，月亮在地球上面
+                moon.style.zIndex = 2;
+            }
+            lastX = e.clientX;
+        });
+
+        // 月相變化
+        setInterval(() => {
+            currentPhase = (currentPhase + 1) % moonPhases.length;
+            moon.textContent = moonPhases[currentPhase];
+        }, 200);
+
+        // 地球動畫
+        setInterval(() => {
+            earthPhase = (earthPhase + 1) % earthPhases.length;
+            earth.textContent = earthPhases[earthPhase];
+        }, 1000);
+
+        // 創建星星
+        function createStar() {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = Math.random() * window.innerHeight + 'px';
+            star.textContent = '⭐';
+            star.style.fontSize = Math.random() * 10 + 5 + 'px';
+            document.body.appendChild(star);
+
+            setInterval(() => {
+                star.style.opacity = Math.random();
+            }, Math.random() * 3000 + 1000);
+        }
+
+        // 創建流星
+        function createMeteor() {
+            // 同時創建多個流星
+            const count = Math.floor(Math.random() * 3) + 1; // 每次產生1-3顆流星
+            
+            for (let i = 0; i < count; i++) {
+                const meteor = document.createElement('div');
+                meteor.className = 'meteor';
+                meteor.textContent = '💫';
+                
+                // 隨機大小
+                const size = Math.random() * 15 + 15; // 15-30px
+                meteor.style.fontSize = size + 'px';
+                
+                // 隨機位置
+                meteor.style.left = (Math.random() * window.innerWidth + 200) + 'px';
+                meteor.style.top = Math.random() * (window.innerHeight / 3) - 100 + 'px';
+                
+                document.body.appendChild(meteor);
+
+                meteor.addEventListener('animationend', () => {
+                    meteor.remove();
+                });
+            }
+        }
+
+        // 初始化100顆星星
+        for (let i = 0; i < 100; i++) {
+            createStar();
+        }
+
+        // 更頻繁地產生流星
+        setInterval(createMeteor, 1000); // 每秒產生一次流星群
+    </script>
+</body>
+</html>
