@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>WebAI 作品集</title>
+    <style>
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+
+        h1 {
+            color: #1a73e8;
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #1a73e8;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .project-card h2 {
+            color: #333;
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+        }
+
+        .project-card p {
+            color: #666;
+            margin: 0 0 15px 0;
+            font-size: 0.9em;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #1a73e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .project-link:hover {
+            background-color: #1557b0;
+        }
+
+        .category {
+            margin: 30px 0;
+        }
+
+        .category-title {
+            color: #333;
+            border-left: 4px solid #1a73e8;
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebAI 作品集</h1>
+
+    <div class="category">
+        <h2 class="category-title">太空主題</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h2>月亮動畫</h2>
+                <p>互動式月亮動畫，包含星空背景和流星效果</p>
+                <a href="WebAI-main/00_月亮動畫.html" class="project-link">查看作品</a>
+            </div>
+            <div class="project-card">
+                <h2>太空站動畫</h2>
+                <p>太空站主題動畫展示</p>
+                <a href="WebAI-main/00_太空站動畫.html" class="project-link">查看作品</a>
+            </div>
+            <div class="project-card">
+                <h2>迷失的太空站</h2>
+                <p>帶有音樂的太空站互動動畫</p>
+                <a href="WebAI-main/00_迷失的太空站動畫.html" class="project-link">查看作品</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2 class="category-title">人臉辨識</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h2>基礎人臉辨識</h2>
+                <p>使用MediaPipe實現的基礎人臉特徵點偵測</p>
+                <a href="WebAI-main/00_基礎人臉辨識.html" class="project-link">查看作品</a>
+            </div>
+            <div class="project-card">
+                <h2>搞笑人臉辨識</h2>
+                <p>添加有趣特效的人臉辨識應用</p>
+                <a href="WebAI-main/00_搞笑人臉辨識.html" class="project-link">查看作品</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2 class="category-title">物理模擬</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h2>物理物件生成器</h2>
+                <p>互動式物理物件生成與模擬</p>
+                <a href="WebAI-main/00_物理物件生成.html" class="project-link">查看作品</a>
+            </div>
+            <div class="project-card">
+                <h2>海綿池玩球</h2>
+                <p>物理引擎實現的互動遊戲</p>
+                <a href="WebAI-main/00_海綿池玩球.html" class="project-link">查看作品</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="category">
+        <h2 class="category-title">其他作品</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h2>Emoji 列表</h2>
+                <p>可互動的 Emoji 展示與複製功能</p>
+                <a href="WebAI-main/00_我的作品.html" class="project-link">查看作品</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
